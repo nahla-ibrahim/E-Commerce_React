@@ -1,22 +1,15 @@
 import ProductCard from "./components/ProductCard";
-import type { Product } from "./types/product";
+import { products } from "./data/products";
 
 function App() {
-  const product: Product = {
-    id: 1,
-    title: "Essence Mascara Lash Princess",
-    description: "Popular mascara",
-    price: 9.99,
-    discountPercentage: 10.48,
-    rating: 2.56,
-    stock: -4554,
-    thumbnail:
-      "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-  };
   return (
-    <main className=" min-h-screen bg-gray-50 p-8">
-      <h1 className="text-3xl font-bold mb-6 ">ALL Products</h1>
-      <ProductCard product={product} />
+    <main className=" min-h-screen bg-stone-50 p-8">
+      <h1 className="text-3xl font-bold mb-6 ">All Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
+        {products.map((p, index) => (
+          <ProductCard key={p.id} product={p} index={index} />
+        ))}
+      </div>
     </main>
   );
 }
