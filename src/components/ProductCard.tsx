@@ -26,65 +26,73 @@ function ProductCard(props: Props) {
   return (
     <article
       style={{ animationDelay: `${index * 80}ms` }}
-      className="w-full rounded-xl  motion-safe:animate-fade-up border border-stone-200 bg-white p-4 shadow-sm transition hover:shadow-lg group flex flex-col  duration-300 ease-out hover:-translate-y-1 cursor-pointer"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lg motion-safe:animate-fade-up"
     >
-      <div className="aspect-square w-full relative bg-stone-100 overflow-hidden">
+      <div className="aspect-square relative bg-muted overflow-hidden">
         <img
           src={thumbnail}
           alt={title}
-          className={`w-full h-full object-contain p-٤ transition duration-700 group-hover:scale-110 ease-out  ${stock <= 0 ? "opacity-40 grayscale" : ""}`}
+          className={`w-full h-full object-contain p-4 transition duration-700 group-hover:scale-110 ease-out  ${stock <= 0 ? "opacity-40 grayscale" : ""}`}
         />
         {discountValue > 0 && (
-          <span className="rounded-full text-white px-2.5 py-1 text-xs font-semibold bg-rose-500 absolute top-3 left-3">
+          <span className="rounded-full text-accent-foreground px-2.5 py-1 text-xs font-semibold bg-accent absolute top-3 left-3">
             -{Math.round(discountValue)}%
           </span>
         )}
         <button
           aria-label="Add to wishlist"
-          className="absolute top-3 right-3 rounded-full bg-white/90 p-2 text-stone-600 shadow-sm transition hover:text-rose-500 cursor-pointer hover:shadow-md active:scale-95"
+          onClick={() => console.log("added to wishlist", title)}
+          className="absolute top-3 right-3 rounded-full bg-card/90 p-2 text-foreground shadow-sm transition cursor-pointer hover:shadow-md active:scale-95 group/heart"
         >
-          <Heart />
+          <Heart className="group-hover/heart:text-accent group-hover/heart:fill-accent" />
         </button>
         {stock <= 0 && (
-          <span className="absolute bottom-0 w-full bg-stone-900/80  text-white text-center text-xs px-2.5 py-2  font-semibold uppercase  ">
+          <span className="absolute bottom-0 w-full bg-foreground/90 text-background text-center text-xs px-2.5 py-2  font-semibold uppercase  ">
             sold out
           </span>
         )}
       </div>
-      <p className="text-xs font-medium uppercase text-stone-400 mt-3">
-        {brand ?? category}
-      </p>
-      <h3 className="mt-1 font-semibold text-stone-800 line-clamp-1">
-        {title}
-      </h3>
-      <div className="mt-2 flex items-center gap-1 text-sm">
-        <Star className="size-4 fill-amber-400 text-amber-400" />
-        <span className="font-medium text-stone-700">{rating?.toFixed(1)}</span>
-        {stock < 10 && stock > 0 && (
-          <span className="ml-auto text-xs font-medium text-amber-600">
-            Only {stock} left
+      <div className="flex flex-1 flex-col p-4">
+        <p className="text-xs font-medium uppercase text-muted-foreground">
+          {brand ?? category}
+        </p>
+        <h3 className="mt-1 font-semibold text-foreground line-clamp-1">
+          {title}
+        </h3>
+        <div className="mt-2 flex items-center gap-1 text-sm">
+          <Star className="size-4 fill-rating text-rating" />
+          <span className="font-medium text-foreground">
+            {rating?.toFixed(1)}
           </span>
-        )}
-      </div>
-
-      <div className="flex justify-between items-end mt-auto pt-4">
-        <div>
-          <p className="text-xl font-bold text-stone-900">
-            ${finalPrice.toFixed(2)}
-          </p>
-          {discountValue > 0 && (
-            <span className="line-through text-sm text-stone-400">
-              ${price.toFixed(2)}
+          {stock < 10 && stock > 0 && (
+            <span className="ml-auto text-xs font-medium text-rating">
+              Only {stock} left
             </span>
           )}
         </div>
-        <button
-          aria-label="Add to cart"
-          disabled={stock <= 0}
-          className=" grid size-11 place-items-center rounded-full bg-stone-900 text-white transition enabled:hover:bg-rose-600 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:text-stone-400 enabled:cursor-pointer enabled:hover:scale-110 enabled:active:scale-90"
-        >
-          <ShoppingBag />
-        </button>
+
+        <div className="flex justify-between items-end mt-auto pt-4">
+          <div>
+            <p className="text-xl font-bold text-foreground">
+              ${finalPrice.toFixed(2)}
+            </p>
+            {discountValue > 0 && (
+              <span className="line-through text-sm text-muted-foreground">
+                ${price.toFixed(2)}
+              </span>
+            )}
+          </div>
+          <button
+            aria-label="Add to cart"
+            onClick={() => {
+              console.log("add to cart", title);
+            }}
+            disabled={stock <= 0}
+            className=" grid size-11 place-items-center rounded-full bg-primary text-primary-foreground transition enabled:hover:bg-accent disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground enabled:cursor-pointer enabled:hover:scale-110 enabled:active:scale-90"
+          >
+            <ShoppingBag />
+          </button>
+        </div>
       </div>
     </article>
   );
